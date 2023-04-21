@@ -17,7 +17,12 @@ List<String> staff = [
   'Staff 7',
 ];
 
-List<String> staffNames = ['Jordan Anatol', 'Wendy Smith', 'Kelly Jones'];
+List<String> staffNames = [
+  'Jordan Anatol',
+  'Wendy Smith',
+  'Kelly Jones',
+  'johannes'
+];
 
 List<DateTime> dates = [
   DateTime(2023, 1, 1),
