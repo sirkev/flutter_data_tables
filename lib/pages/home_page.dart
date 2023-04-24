@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_data_tables/staff_cell.dart';
+import 'package:flutter_data_tables/widgets/staff_cell.dart';
 
-import 'appointment_cell.dart';
-import 'data.dart';
+import '../data/data.dart';
+import '../widgets/appointment_cell.dart';
 
 class HomePage extends StatefulWidget {
   final String title;

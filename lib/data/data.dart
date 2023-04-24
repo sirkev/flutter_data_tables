@@ -20,8 +20,6 @@ List<String> staff = [
 List<String> staffNames = [
   'Jordan Anatol',
   'Wendy Smith',
-  'Kelly Jones',
-  'johannes'
 ];
 
 List<DateTime> dates = [
