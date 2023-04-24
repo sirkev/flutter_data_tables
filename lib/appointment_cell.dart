@@ -20,11 +20,11 @@ class _AppointmentCellState extends State<AppointmentCell> {
             ...List.generate(
               10,
               (index) => Container(
-                  height: 40,
+                  height: 25,
                   width: 150,
                   margin: const EdgeInsets.only(right: 4),
                   decoration: BoxDecoration(
-                      color: Colors.blue[500],
+                      color: Colors.blue[300],
                       borderRadius: BorderRadius.circular(4)),
                   child: const Center(
                       child: Text(

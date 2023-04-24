@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_data_tables/staff_cell.dart';
 
 import 'appointment_cell.dart';
 import 'data.dart';
@@ -67,7 +68,13 @@ class _HomePageState extends State<HomePage> {
     List<DataRow> rows = [];
     for (String staff in staffNames) {
       rows.add(DataRow(cells: [
-        DataCell(Text(staff)),
+        DataCell(StaffCell(
+          name: staff,
+          id: '',
+          imageUrl: '',
+          isAvailable: true,
+          hours: '',
+        )),
         DataCell(AppointmentCell()),
         DataCell(Text('')),
         DataCell(Text('')),
