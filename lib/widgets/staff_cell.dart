@@ -7,12 +7,12 @@ class StaffCell extends StatefulWidget {
       required this.id,
       required this.imageUrl,
       required this.hours,
-      required this.isAvailable})
+      required this.isWorking})
       : super(key: key);
   final String name;
   final String id;
   final String imageUrl;
-  final bool isAvailable;
+  final bool isWorking;
   final String hours;
 
   @override
@@ -22,26 +22,57 @@ class StaffCell extends StatefulWidget {
 class _StaffCellState extends State<StaffCell> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 18,
-            backgroundImage: AssetImage(widget.imageUrl),
-          ),
-          SizedBox(
-            width: 5,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(widget.name),
-              Text(widget.hours),
-            ],
-          )
-        ],
-      ),
+    return Row(
+      children: [
+        Stack(
+          children: [
+            Container(
+              height: 30,
+              width: 30,
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: AssetImage(widget.imageUrl),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            widget.isWorking
+                ? Positioned(
+                    right: 0,
+                    bottom: 0,
+                    child: Container(
+                      height: 8,
+                      width: 8,
+                      decoration: BoxDecoration(
+                        color: Color(0xff26d07c),
+                        shape: BoxShape.circle,
+                      ),
+                    ))
+                : const SizedBox(),
+          ],
+        ),
+        const SizedBox(
+          width: 5,
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(widget.name),
+            widget.isWorking
+                ? Text(
+                    widget.hours,
+                    style: const TextStyle(color: Colors.black54, fontSize: 11),
+                  )
+                : const Text(
+                    'Not working',
+                    style: TextStyle(color: Colors.black54, fontSize: 11),
+                  ),
+          ],
+        )
+      ],
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_data_tables/widgets/staff_cell.dart';
 
@@ -72,8 +74,8 @@ class _HomePageState extends State<HomePage> {
           name: staff,
           id: '',
           imageUrl: 'lib/assets/images/barber_shop.png',
-          isAvailable: true,
-          hours: '',
+          isWorking: Random().nextBool(),
+          hours: '16 h',
         )),
         DataCell(AppointmentCell()),
         DataCell(Text('')),
