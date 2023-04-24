@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
         DataCell(StaffCell(
           name: staff,
           id: '',
-          imageUrl: '',
+          imageUrl: 'lib/assets/images/barber_shop.png',
           isAvailable: true,
           hours: '',
         )),
