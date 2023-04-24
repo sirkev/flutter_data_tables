@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'appointment_cell.dart';
 import 'data.dart';
 
 class HomePage extends StatefulWidget {
@@ -38,6 +39,8 @@ class _HomePageState extends State<HomePage> {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: DataTable(
+                      columnSpacing: 20,
+                      horizontalMargin: 5,
                       border: TableBorder.all(
                           color: Colors.grey[400] as Color,
                           borderRadius: BorderRadius.circular(10)),
@@ -65,7 +68,7 @@ class _HomePageState extends State<HomePage> {
     for (String staff in staffNames) {
       rows.add(DataRow(cells: [
         DataCell(Text(staff)),
-        DataCell(Text('')),
+        DataCell(AppointmentCell()),
         DataCell(Text('')),
         DataCell(Text('')),
         DataCell(Text('')),
