@@ -33,7 +33,7 @@ class _StaffCellState extends State<StaffCell> {
                 color: Colors.blue,
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  image: AssetImage(widget.imageUrl),
+                  image: NetworkImage(widget.imageUrl),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -45,7 +45,7 @@ class _StaffCellState extends State<StaffCell> {
                     child: Container(
                       height: 8,
                       width: 8,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color(0xff26d07c),
                         shape: BoxShape.circle,
                       ),

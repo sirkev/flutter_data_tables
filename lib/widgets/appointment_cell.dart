@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_data_tables/data/data.dart';
 
 class AppointmentCell extends StatefulWidget {
   const AppointmentCell({Key? key}) : super(key: key);
@@ -22,13 +25,13 @@ class _AppointmentCellState extends State<AppointmentCell> {
                 width: 100,
                 margin: const EdgeInsets.only(bottom: 4, top: 2),
                 decoration: BoxDecoration(
-                    color: Colors.blue[300],
-                    borderRadius: BorderRadius.circular(4)),
-                child: const Center(
+                    color: Colors.blue[200],
+                    borderRadius: BorderRadius.circular(2)),
+                child: Center(
                     child: Text(
-                  '9.00am - 10.00am',
-                  style: TextStyle(
-                      color: Colors.white,
+                  workingHours[Random().nextInt(workingHours.length)],
+                  style: const TextStyle(
+                      color: Colors.black54,
                       fontWeight: FontWeight.w400,
                       fontSize: 11),
                 ))),

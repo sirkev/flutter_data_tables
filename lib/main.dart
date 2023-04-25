@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'data/data.dart';
 import 'pages/home_page.dart';
 
 void main() {
@@ -11,12 +12,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    getWeekdayFromDate(parseDate("2021-10-01"));
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
-      home: const HomePage(title: 'Flutter Demo Home Page'),
+      home: const HomePage(title: 'Employee working hours table widget'),
     );
   }
 }

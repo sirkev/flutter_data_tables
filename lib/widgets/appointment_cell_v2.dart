@@ -11,8 +11,8 @@ class AppointmentCellV2 extends StatelessWidget {
         child: GridView.builder(
             itemCount: 2,
             //  scrollDirection: Axis.horizontal,
-            gridDelegate:
-                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2),
             itemBuilder: (context, index) {
               return SizedBox(
                 height: 25,
@@ -22,7 +22,7 @@ class AppointmentCellV2 extends StatelessWidget {
                     margin:
                         const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
                     decoration: BoxDecoration(
-                        color: Colors.blue[300],
+                        color: Colors.amberAccent,
                         borderRadius: BorderRadius.circular(4)),
                     child: const Center(
                         child: Text(

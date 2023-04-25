@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 List<String> days = [
   'Monday',
   'Tuesday',
@@ -6,6 +8,10 @@ List<String> days = [
   'Friday',
   'Saturday',
   'Sunday',
+];
+List<String> workingHours = [
+  '9.00am - 17.00pm',
+  '18:00am - 22:00pm',
 ];
 List<String> staff = [
   'Staff 1',
@@ -34,6 +40,74 @@ List<DateTime> dates = [
 
 Map<String, dynamic> getEmployees() {
   return {
-    // "employees": {"count": 3, "l"}
+    "employees": [
+      {
+        "name": 'wendy smith',
+        "avatarUrl": "https://38m73l2s.twic.pics/barber.png?twic=v1/resize=400",
+        "workingHours": {
+          '2023-04-16': [
+            '10:00 - 14:00',
+            '17:00 - 22:00',
+            '17:00 - 22:00',
+            '17:00 - 22:00',
+            '17:00 - 22:00',
+            '17:00 - 22:00',
+            '17:00 - 22:00',
+          ],
+          '2023-04-17': ['09:00 - 17:00'],
+          '2023-04-18': ['09:00 - 17:00'],
+          '2023-04-19': ['09:00 - 17:00'],
+          '2023-04-20': ['09:00 - 17:00'],
+          '2023-04-21': ['09:00 - 17:00'],
+          '2023-04-22': ['09:00 - 17:00'],
+        },
+      },
+      {
+        "name": 'Jordan Anatol',
+        "avatarUrl": "https://38m73l2s.twic.pics/barber.png?twic=v1/resize=400",
+        "workingHours": {
+          '16-04-2023': [
+            '10:00 - 14:00',
+            '17:00 - 22:00',
+            '17:00 - 22:00',
+            '17:00 - 22:00',
+            '17:00 - 22:00',
+            '17:00 - 22:00',
+            '17:00 - 22:00',
+          ],
+          '17-04-2023': ['09:00 - 17:00'],
+          '18-04-2023': ['09:00 - 17:00'],
+          '19-04-2023': ['09:00 - 17:00'],
+          '20-04-2023': ['09:00 - 17:00'],
+          '21-04-2023': ['09:00 - 17:00'],
+          '22-04-2023': ['09:00 - 17:00'],
+        },
+      },
+    ]
   };
+}
+
+DateTime parseDate(String date) {
+  DateTime parsedDate = DateTime.parse(date);
+  print("${parsedDate.weekday} ${parsedDate.month} ${parsedDate.year}");
+  return parsedDate;
+}
+
+String getWeekdayFromDate(DateTime workingDays) {
+  String dateFormat = DateFormat('EEE,d,MMM').format(workingDays);
+  print(dateFormat);
+  return dateFormat;
+}
+
+void getWorkingDays(Map<String, dynamic> workingHours) {
+  workingHours.forEach((key, value) {
+    String reversedKey = reverseDateFormats(key);
+    DateTime parsedKeys = parseDate(reversedKey);
+    print(parsedKeys);
+  });
+}
+
+String reverseDateFormats(String date) {
+  date.split('').reversed.join('');
+  return date;
 }
