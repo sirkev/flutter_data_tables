@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 
-import 'data/data.dart';
 import 'pages/home_page.dart';
 
 void main() {
@@ -12,8 +12,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    getWeekdayFromDate(parseDate("2021-10-01"));
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.amber,

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_data_tables/widgets/staff_cell.dart';
 
 import '../data/data.dart';
+import '../utils/dimensions.dart';
+import '../utils/styles.dart';
 import '../widgets/appointment_cell.dart';
 
 class HomePage extends StatefulWidget {
@@ -33,27 +35,140 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        backgroundColor: Styles.blueColor,
+        leadingWidth: Dimensions.getWidth(110),
+        leading: Container(
+          margin: EdgeInsets.only(left: Dimensions.getWidth(20)),
+          height: Dimensions.getHeight(64),
+          width: Dimensions.getWidth(110),
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  fit: BoxFit.contain,
+                  image: AssetImage('lib/assets/images/logo_black_long.png'))),
+        ),
+        actions: [
+          Container(
+            margin: EdgeInsets.only(left: Dimensions.getWidth(20)),
+            height: Dimensions.getHeight(24.02),
+            width: Dimensions.getWidth(23.69),
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    fit: BoxFit.contain,
+                    image:
+                        AssetImage('lib/assets/images/notification_bell.png'))),
+          ),
+          SizedBox(width: Dimensions.getWidth(20)),
+          SizedBox(
+              height: Dimensions.getHeight(40),
+              width: Dimensions.getHeight(40),
+              child: const CircleAvatar(
+                radius: 80,
+                backgroundImage:
+                    AssetImage('lib/assets/images/barber_shop.png'),
+              )),
+          SizedBox(width: Dimensions.getWidth(16)),
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(
-            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             child: Text(
               'Employee',
               style: TextStyle(
                   color: Color(0xff1d252d),
                   fontWeight: FontWeight.w900,
-                  fontSize: 16),
+                  fontSize: 18),
             ),
           ),
+          Row(
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                margin: const EdgeInsets.only(left: 10, top: 10),
+                decoration: const BoxDecoration(
+                    border: Border(
+                        bottom:
+                            BorderSide(color: Colors.amberAccent, width: 3))),
+                child: const Text(
+                  'Working hours',
+                  style: TextStyle(
+                      color: Color(0xff1d252d),
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16),
+                ),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                margin: const EdgeInsets.only(left: 10, top: 10),
+                decoration: const BoxDecoration(
+                    // border: Border(
+                    //     bottom:
+                    //         BorderSide(color: Colors.amberAccent, width: 3)),
+                    ),
+                child: const Text(
+                  'Profile',
+                  style: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16),
+                ),
+              ),
+            ],
+          ),
+          Divider(
+            color: Colors.grey[300],
+            indent: 10,
+            endIndent: 10,
+          ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text('Working hours'),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SizedBox(
+                    height: Dimensions.getHeight(45),
+                    width: Dimensions.getWidth(45),
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          top: Dimensions.getHeight(1),
+                          right: Dimensions.getWidth(0),
+                          child: Container(
+                            height: Dimensions.getHeight(12),
+                            width: Dimensions.getWidth(12),
+                            decoration: const BoxDecoration(
+                                color: Colors.amberAccent,
+                                shape: BoxShape.circle),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(
+                            horizontal: Dimensions.getWidth(10),
+                            vertical: Dimensions.getHeight(5),
+                          ),
+                          height: Dimensions.getHeight(40),
+                          width: Dimensions.getWidth(40),
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(4)),
+                            image: DecorationImage(
+                              image: AssetImage(
+                                  'lib/assets/images/filter_icon.png'),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )),
+              ],
+            ),
           ),
           Container(
-            margin: const EdgeInsets.symmetric(vertical: 80, horizontal: 16),
+            margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
             height: 200,
             child: Scrollbar(
               controller: _verticalScrollController,
@@ -86,14 +201,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  List<DataCell> _getEmployeeNameCells() {
-    List<DataCell> cells = [];
-    for (String employeeName in staffNames) {
-      cells.add(DataCell(Text(employeeName)));
-    }
-    return cells;
-  }
-
   List<DataRow> _getEmployeeRows() {
     List<DataRow> rows = List.generate(
         _employees.length,
@@ -105,13 +212,15 @@ class _HomePageState extends State<HomePage> {
                 isWorking: Random().nextBool(),
                 hours: '16 h',
               )),
-              DataCell(AppointmentCell()),
-              DataCell(Text('')),
-              DataCell(Text('')),
-              DataCell(Text('')),
-              DataCell(Text('')),
-              DataCell(Text('')),
-              DataCell(Text('')),
+              const DataCell(AppointmentCell(
+                workingHours: '',
+              )),
+              const DataCell(Text('')),
+              const DataCell(Text('')),
+              const DataCell(Text('')),
+              const DataCell(Text('')),
+              const DataCell(Text('')),
+              const DataCell(Text('')),
             ]));
 
     return rows;
@@ -126,7 +235,6 @@ class _HomePageState extends State<HomePage> {
     workingHours.forEach((key, value) {
       String reversedKey = reverseDateFormats(key);
       DateTime parsedKeys = parseDate(reversedKey);
-      print(parsedKeys);
       columns.add(DataColumn(
           label: Center(
         child: Text(getWeekdayFromDate(parsedKeys),
@@ -134,8 +242,6 @@ class _HomePageState extends State<HomePage> {
                 color: Color(0xff1d252d), fontWeight: FontWeight.w700)),
       )));
     });
-
-    print('${columns.length}');
 
     return columns;
   }

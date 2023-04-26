@@ -1,10 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_data_tables/data/data.dart';
+
+import '../data/data.dart';
 
 class AppointmentCell extends StatefulWidget {
-  const AppointmentCell({Key? key}) : super(key: key);
+  final String workingHours;
+  const AppointmentCell({Key? key, required this.workingHours})
+      : super(key: key);
 
   @override
   State<AppointmentCell> createState() => _AppointmentCellState();
@@ -13,17 +16,20 @@ class AppointmentCell extends StatefulWidget {
 class _AppointmentCellState extends State<AppointmentCell> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 100,
-      //height: 100,
-      child: Wrap(
-        children: [
-          ...List.generate(
-            10,
-            (index) => Container(
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: SizedBox(
+        width: 100,
+        //height: 100,
+        child: GridView.builder(
+          scrollDirection: Axis.horizontal,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              childAspectRatio: 0.25, crossAxisCount: 2),
+          itemBuilder: (context, index) {
+            return Container(
                 height: 20,
-                width: 100,
-                margin: const EdgeInsets.only(bottom: 4, top: 2),
+                width: 200,
+                margin: const EdgeInsets.only(bottom: 4, top: 2, right: 4),
                 decoration: BoxDecoration(
                     color: Colors.blue[200],
                     borderRadius: BorderRadius.circular(2)),
@@ -34,9 +40,10 @@ class _AppointmentCellState extends State<AppointmentCell> {
                       color: Colors.black54,
                       fontWeight: FontWeight.w400,
                       fontSize: 11),
-                ))),
-          )
-        ],
+                )));
+          },
+          itemCount: 10,
+        ),
       ),
     );
   }

@@ -87,26 +87,27 @@ Map<String, dynamic> getEmployees() {
   };
 }
 
+//parse string to date
 DateTime parseDate(String date) {
   DateTime parsedDate = DateTime.parse(date);
-  print("${parsedDate.weekday} ${parsedDate.month} ${parsedDate.year}");
   return parsedDate;
 }
 
+//get weekday name from date data
 String getWeekdayFromDate(DateTime workingDays) {
   String dateFormat = DateFormat('EEE,d,MMM').format(workingDays);
-  print(dateFormat);
   return dateFormat;
 }
 
+//get working days and Parse to day, month, year
 void getWorkingDays(Map<String, dynamic> workingHours) {
   workingHours.forEach((key, value) {
     String reversedKey = reverseDateFormats(key);
     DateTime parsedKeys = parseDate(reversedKey);
-    print(parsedKeys);
   });
 }
 
+//reverse date formats
 String reverseDateFormats(String date) {
   date.split('').reversed.join('');
   return date;
