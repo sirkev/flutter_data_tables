@@ -1,12 +1,12 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_data_tables/widgets/staff_cell.dart';
+import 'package:get/get.dart';
 
+import '../controllers/employee_controller.dart';
 import '../data/data.dart';
+import '../stores/employee_store.dart';
 import '../utils/dimensions.dart';
 import '../utils/styles.dart';
-import '../widgets/appointment_cell.dart';
+import '../widgets/filter_widgets.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -17,10 +17,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  EmployeeController employeeController = Get.put(EmployeeController());
+  EmployeeStore employeeStore = EmployeeStore();
   late ScrollController _verticalScrollController;
   late ScrollController _horizontalScrollController;
   late List<Map<String, dynamic>> _employees;
   late List<String> workingDays;
+  bool showFilters = false;
   @override
   void initState() {
     super.initState();
@@ -29,6 +32,7 @@ class _HomePageState extends State<HomePage> {
     var result = getEmployees();
     _employees = result["employees"];
     getWorkingDays(_employees[0]["workingHours"]);
+    employeeController.getEmployeesData();
   }
 
   @override
@@ -69,180 +73,163 @@ class _HomePageState extends State<HomePage> {
           SizedBox(width: Dimensions.getWidth(16)),
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            child: Text(
-              'Employee',
-              style: TextStyle(
-                  color: Color(0xff1d252d),
-                  fontWeight: FontWeight.w900,
-                  fontSize: 18),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              child: Text(
+                'Employee',
+                style: TextStyle(
+                    color: Color(0xff1d252d),
+                    fontWeight: FontWeight.w900,
+                    fontSize: 18),
+              ),
             ),
-          ),
-          Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                margin: const EdgeInsets.only(left: 10, top: 10),
-                decoration: const BoxDecoration(
-                    border: Border(
-                        bottom:
-                            BorderSide(color: Colors.amberAccent, width: 3))),
-                child: const Text(
-                  'Working hours',
-                  style: TextStyle(
-                      color: Color(0xff1d252d),
-                      fontWeight: FontWeight.w700,
-                      fontSize: 16),
-                ),
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                margin: const EdgeInsets.only(left: 10, top: 10),
-                decoration: const BoxDecoration(
-                    // border: Border(
-                    //     bottom:
-                    //         BorderSide(color: Colors.amberAccent, width: 3)),
-                    ),
-                child: const Text(
-                  'Profile',
-                  style: TextStyle(
-                      color: Colors.grey,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16),
-                ),
-              ),
-            ],
-          ),
-          Divider(
-            color: Colors.grey[300],
-            indent: 10,
-            endIndent: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+            Row(
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(
-                    height: Dimensions.getHeight(45),
-                    width: Dimensions.getWidth(45),
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          top: Dimensions.getHeight(1),
-                          right: Dimensions.getWidth(0),
-                          child: Container(
-                            height: Dimensions.getHeight(12),
-                            width: Dimensions.getWidth(12),
-                            decoration: const BoxDecoration(
-                                color: Colors.amberAccent,
-                                shape: BoxShape.circle),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(
-                            horizontal: Dimensions.getWidth(10),
-                            vertical: Dimensions.getHeight(5),
-                          ),
-                          height: Dimensions.getHeight(40),
-                          width: Dimensions.getWidth(40),
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            image: DecorationImage(
-                              image: AssetImage(
-                                  'lib/assets/images/filter_icon.png'),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  margin: const EdgeInsets.only(left: 10, top: 10),
+                  decoration: const BoxDecoration(
+                      border: Border(
+                          bottom:
+                              BorderSide(color: Colors.amberAccent, width: 3))),
+                  child: const Text(
+                    'Working hours',
+                    style: TextStyle(
+                        color: Color(0xff1d252d),
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16),
+                  ),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  margin: const EdgeInsets.only(left: 10, top: 10),
+                  decoration: const BoxDecoration(
+                      // border: Border(
+                      //     bottom:
+                      //         BorderSide(color: Colors.amberAccent, width: 3)),
+                      ),
+                  child: const Text(
+                    'Profile',
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16),
+                  ),
+                ),
               ],
             ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-            height: 200,
-            child: Scrollbar(
-              controller: _verticalScrollController,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
+            Divider(
+              color: Colors.grey[300],
+              indent: 10,
+              endIndent: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        showFilters = !showFilters;
+                      });
+                    },
+                    child: SizedBox(
+                        height: Dimensions.getHeight(45),
+                        width: Dimensions.getWidth(45),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              top: Dimensions.getHeight(1),
+                              right: Dimensions.getWidth(0),
+                              child: Container(
+                                height: Dimensions.getHeight(12),
+                                width: Dimensions.getWidth(12),
+                                decoration: const BoxDecoration(
+                                    color: Colors.amberAccent,
+                                    shape: BoxShape.circle),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.symmetric(
+                                horizontal: Dimensions.getWidth(10),
+                                vertical: Dimensions.getHeight(5),
+                              ),
+                              height: Dimensions.getHeight(40),
+                              width: Dimensions.getWidth(40),
+                              decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)),
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                      'lib/assets/images/filter_icon.png'),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )),
+                  ),
+                ],
+              ),
+            ),
+            showFilters
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                          margin: const EdgeInsets.symmetric(
+                            vertical: 15,
+                          ),
+                          height: 160,
+                          width: Dimensions.screenWidth,
+                          color: Colors.transparent,
+                          child: const FilterWidgets()),
+                    ],
+                  )
+                : SizedBox(),
+            AnimatedContainer(
+              margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+              duration: const Duration(milliseconds: 100),
+              child: Scrollbar(
                 controller: _verticalScrollController,
-                child: Scrollbar(
-                  controller: _horizontalScrollController,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  controller: _verticalScrollController,
                   child: Scrollbar(
-                    controller: _verticalScrollController,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: DataTable(
-                          columnSpacing: 20,
-                          horizontalMargin: 5,
-                          border: TableBorder.all(
-                              color: Colors.grey[400] as Color,
-                              borderRadius: BorderRadius.circular(10)),
-                          columns:
-                              _getDayColumns(_employees[0]["workingHours"]),
-                          rows: _getEmployeeRows()),
+                    controller: _horizontalScrollController,
+                    child: Scrollbar(
+                      controller: _verticalScrollController,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child:
+                            GetBuilder<EmployeeController>(builder: (context) {
+                          return DataTable(
+                              columnSpacing: 20,
+                              horizontalMargin: 5,
+                              border: TableBorder.all(
+                                  color: Colors.grey[400] as Color,
+                                  borderRadius: BorderRadius.circular(10)),
+                              columns: employeeController
+                                  .getDayColumns(_employees[0]["workingHours"]),
+                              rows: employeeController.getEmployeeRows());
+                        }),
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
-  }
-
-  List<DataRow> _getEmployeeRows() {
-    List<DataRow> rows = List.generate(
-        _employees.length,
-        (index) => DataRow(cells: [
-              DataCell(StaffCell(
-                name: _employees[index]["name"],
-                id: '${_employees[index]}',
-                imageUrl: '${_employees[index]["avatarUrl"]}',
-                isWorking: Random().nextBool(),
-                hours: '16 h',
-              )),
-              const DataCell(AppointmentCell(
-                workingHours: '',
-              )),
-              const DataCell(Text('')),
-              const DataCell(Text('')),
-              const DataCell(Text('')),
-              const DataCell(Text('')),
-              const DataCell(Text('')),
-              const DataCell(Text('')),
-            ]));
-
-    return rows;
-  }
-
-  List<DataColumn> _getDayColumns(Map<String, dynamic> workingHours) {
-    List<DataColumn> columns = [];
-    columns.add(const DataColumn(
-        label: Text('Change Staff',
-            style: TextStyle(
-                color: Colors.amberAccent, fontWeight: FontWeight.w700))));
-    workingHours.forEach((key, value) {
-      String reversedKey = reverseDateFormats(key);
-      DateTime parsedKeys = parseDate(reversedKey);
-      columns.add(DataColumn(
-          label: Center(
-        child: Text(getWeekdayFromDate(parsedKeys),
-            style: const TextStyle(
-                color: Color(0xff1d252d), fontWeight: FontWeight.w700)),
-      )));
-    });
-
-    return columns;
   }
 }

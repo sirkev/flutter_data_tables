@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:intl/intl.dart';
 
 List<String> days = [
@@ -9,23 +11,27 @@ List<String> days = [
   'Saturday',
   'Sunday',
 ];
+List<String> locations = ["Manhattan", "New, york", "New Jersey"];
+
 List<String> workingHours = [
   '9.00am - 17.00pm',
   '18:00am - 22:00pm',
 ];
-List<String> staff = [
-  'Staff 1',
-  'Staff 2',
-  'Staff 3',
-  'Staff 4',
-  'Staff 5',
-  'Staff 6',
-  'Staff 7',
-];
 
 List<String> staffNames = [
-  'Jordan Anatol',
-  'Wendy Smith',
+  'Jordan ',
+  'Wendy',
+  'Gertrude ',
+  'Emma',
+  'Olivia',
+  'Ava',
+  'Isabella',
+  'Sophia',
+  'Mia',
+  'Charlotte',
+  'Amelia',
+  'Evelyn',
+  'Abigail'
 ];
 
 List<DateTime> dates = [
@@ -39,52 +45,37 @@ List<DateTime> dates = [
 ];
 
 Map<String, dynamic> getEmployees() {
-  return {
+  var data = {
     "employees": [
-      {
-        "name": 'wendy smith',
-        "avatarUrl": "https://38m73l2s.twic.pics/barber.png?twic=v1/resize=400",
-        "workingHours": {
-          '2023-04-16': [
-            '10:00 - 14:00',
-            '17:00 - 22:00',
-            '17:00 - 22:00',
-            '17:00 - 22:00',
-            '17:00 - 22:00',
-            '17:00 - 22:00',
-            '17:00 - 22:00',
-          ],
-          '2023-04-17': ['09:00 - 17:00'],
-          '2023-04-18': ['09:00 - 17:00'],
-          '2023-04-19': ['09:00 - 17:00'],
-          '2023-04-20': ['09:00 - 17:00'],
-          '2023-04-21': ['09:00 - 17:00'],
-          '2023-04-22': ['09:00 - 17:00'],
-        },
-      },
-      {
-        "name": 'Jordan Anatol',
-        "avatarUrl": "https://38m73l2s.twic.pics/barber.png?twic=v1/resize=400",
-        "workingHours": {
-          '16-04-2023': [
-            '10:00 - 14:00',
-            '17:00 - 22:00',
-            '17:00 - 22:00',
-            '17:00 - 22:00',
-            '17:00 - 22:00',
-            '17:00 - 22:00',
-            '17:00 - 22:00',
-          ],
-          '17-04-2023': ['09:00 - 17:00'],
-          '18-04-2023': ['09:00 - 17:00'],
-          '19-04-2023': ['09:00 - 17:00'],
-          '20-04-2023': ['09:00 - 17:00'],
-          '21-04-2023': ['09:00 - 17:00'],
-          '22-04-2023': ['09:00 - 17:00'],
-        },
-      },
+      ...List.generate(10, (index) {
+        return {
+          "name": "${staffNames[index]}",
+          "avatarUrl":
+              "https://38m73l2s.twic.pics/barber.png?twic=v1/resize=400",
+          "workingHours": {
+            '2023-04-16': [
+              '10:00 - 14:00',
+              '17:00 - 22:00',
+              '17:00 - 22:00',
+              '17:00 - 22:00',
+              '17:00 - 22:00',
+              '17:00 - 22:00',
+              '17:00 - 22:00',
+            ],
+            '2023-04-17': ['09:00 - 17:00'],
+            '2023-04-18': ['09:00 - 17:00'],
+            '2023-04-19': ['09:00 - 17:00'],
+            '2023-04-20': ['09:00 - 17:00'],
+            '2023-04-21': ['09:00 - 17:00'],
+            '2023-04-22': ['09:00 - 17:00'],
+          },
+          "location": "${locations[Random().nextInt(3)]}"
+        };
+      })
     ]
   };
+  print(data);
+  return data;
 }
 
 //parse string to date
