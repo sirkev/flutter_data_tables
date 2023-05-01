@@ -15,7 +15,7 @@ class EmployeeController extends GetxController {
   List<Employee> _employees = [];
   List<Employee> get employees => _employees;
 
-  final List<String> _employeeNames = [];
+  List<String> _employeeNames = [];
   List<String> get employeeNames => _employeeNames;
 
   List getEmployeesData() {
@@ -29,31 +29,38 @@ class EmployeeController extends GetxController {
       ));
     }
     update();
-    // print(_employees);
     return employees;
   }
 
   List<DataRow> getEmployeeRows() {
-    List<DataRow> rows = List.generate(
-        _employees.length,
-        (index) => DataRow(cells: [
-              DataCell(StaffCell(
-                name: _employees[index].name,
-                id: '${_employees[index]}',
-                imageUrl: _employees[index].avatarUrl,
-                isWorking: Random().nextBool(),
-                hours: '${Random().nextInt(16).clamp(1, 16)}h',
-              )),
-              const DataCell(AppointmentCell(
-                workingHours: '',
-              )),
-              const DataCell(Text('')),
-              const DataCell(Text('')),
-              const DataCell(Text('')),
-              const DataCell(Text('')),
-              const DataCell(Text('')),
-              const DataCell(Text('')),
-            ]));
+    List<DataRow> rows = List.generate(_employees.length, (index) {
+      // _employeeNames.insert(0, "All Employees");
+      for (var i = 0; i < _employees.length; i++) {
+        _employeeNames.add(_employees[index].name);
+      }
+      var employeeSet = _employeeNames.toSet();
+      var employeeNamesSet = employeeSet.toList();
+      _employeeNames = employeeNamesSet;
+
+      return DataRow(cells: [
+        DataCell(StaffCell(
+          name: _employees[index].name,
+          id: '${_employees[index]}',
+          imageUrl: _employees[index].avatarUrl,
+          isWorking: Random().nextBool(),
+          hours: '${Random().nextInt(16).clamp(1, 16)}h',
+        )),
+        const DataCell(AppointmentCell(
+          workingHours: '',
+        )),
+        const DataCell(Text('')),
+        const DataCell(Text('')),
+        const DataCell(Text('')),
+        const DataCell(Text('')),
+        const DataCell(Text('')),
+        const DataCell(Text('')),
+      ]);
+    });
     //update();
     return rows;
   }
@@ -93,23 +100,37 @@ class EmployeeController extends GetxController {
   void filterEmployeesByLocation(String value) {
     getEmployeesData();
     List<Employee> filterList = [];
+    List<String> employeeNamesFiltered = [];
+
     for (var element in _employees) {
+      if (value == 'All locations') {
+        filterList = _employees;
+        employeeNamesFiltered = _employeeNames;
+      }
       if (element.location == value) {
         filterList.add(element);
-        _employeeNames.add(element.name);
-        _employees = filterList;
-        update();
-      }
-    }
-    for (var element in _locationItems) {
-      if (element == "All locations") {
-        filterList = _employees;
-        update();
+        employeeNamesFiltered.add(element.name);
       }
     }
 
+    _employeeNames = employeeNamesFiltered;
     _employees = filterList;
     update();
+  }
+
+  void filterEmployeeName(String value) {
+    List<Employee> filterList = [];
+    for (var element in _employees) {
+      if (element.name == value) {
+        filterList.add(element);
+      }
+    }
+    _employees = filterList;
+    update();
+  }
+
+  void getFirstEmployListItem() {
+    _employeeNames.insert(0, "All employees");
   }
 
   //gets list of locations
@@ -122,5 +143,15 @@ class EmployeeController extends GetxController {
             DropdownMenuItem(value: locationItem, child: Text(locationItem)))
         .toList();
     return menuItems;
+  }
+
+  void resetEmployeeNamesList() {
+    getEmployeeRows();
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    getFirstEmployListItem();
   }
 }

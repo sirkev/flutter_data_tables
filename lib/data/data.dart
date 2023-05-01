@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:intl/intl.dart';
 
 List<String> days = [
@@ -11,7 +9,21 @@ List<String> days = [
   'Saturday',
   'Sunday',
 ];
-List<String> locations = ["Manhattan", "New, york", "New Jersey"];
+List<String> locations = [
+  "New, york",
+  "New Jersey",
+  "New Jersey",
+  "New Jersey",
+  'ohio',
+  'ohio',
+  'ohio',
+  "Los Angeles",
+  "Los Angeles",
+  "Los Angeles",
+  "Manhattan",
+  "Manhattan",
+  "Manhattan"
+];
 
 List<String> workingHours = [
   '9.00am - 17.00pm',
@@ -69,7 +81,7 @@ Map<String, dynamic> getEmployees() {
             '2023-04-21': ['09:00 - 17:00'],
             '2023-04-22': ['09:00 - 17:00'],
           },
-          "location": "${locations[Random().nextInt(3)]}"
+          "location": "${locations[index]}"
         };
       })
     ]

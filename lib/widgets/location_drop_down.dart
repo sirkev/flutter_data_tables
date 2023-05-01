@@ -14,21 +14,18 @@ class LocationDropDown extends StatefulWidget {
 
 class _LocationDropDownState extends State<LocationDropDown> {
   EmployeeController employeeController = Get.put(EmployeeController());
-// Initial Selected Value
   late String dropdownvalue;
-
-// List of items in our dropdown menu
   List<DropdownMenuItem<String>>? items = [];
+
   @override
   void initState() {
     super.initState();
-    items = employeeController
+    employeeController
         .buildLocationMenuItems(employeeController.getLocations());
-
     dropdownvalue = employeeController.locationItems[0];
     // print(employeeController
     //     .buildLocationMenuItems(employeeController.getLocations()));
-    print("items :$items");
+    //print("items :$items");
   }
 
   @override
@@ -40,6 +37,7 @@ class _LocationDropDownState extends State<LocationDropDown> {
           DropdownButtonHideUnderline(
             child: DropdownButton(
               elevation: 0,
+              enableFeedback: true,
               isExpanded: true,
               // Initial Value
               value: dropdownvalue,
@@ -59,8 +57,10 @@ class _LocationDropDownState extends State<LocationDropDown> {
               onChanged: (String? newValue) {
                 setState(() {
                   dropdownvalue = newValue!;
+                  employeeController.employeeNames[0] = "All Employees";
                 });
                 employeeController.filterEmployeesByLocation(newValue!);
+                // employeeController.resetEmployeeNamesList();
               },
             ),
           ),

@@ -14,21 +14,17 @@ class EmployeeDropDown extends StatefulWidget {
 
 class _EmployeeDropDownState extends State<EmployeeDropDown> {
   EmployeeController employeeController = Get.put(EmployeeController());
-// Initial Selected Value
   late String dropdownvalue;
 
-// List of items in our dropdown menu
   List<DropdownMenuItem<String>>? items = [];
   @override
   void initState() {
     super.initState();
-    items = employeeController
-        .buildLocationMenuItems(employeeController.getLocations());
-
+    employeeController.getEmployeeRows();
+    if (employeeController.employeeNames[0] != "All Employees") {
+      employeeController.employeeNames[0] = "All Employees";
+    }
     dropdownvalue = employeeController.employeeNames[0];
-    // print(employeeController
-    //     .buildLocationMenuItems(employeeController.getLocations()));
-    // print("items :$items");
   }
 
   @override
@@ -38,31 +34,32 @@ class _EmployeeDropDownState extends State<EmployeeDropDown> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           DropdownButtonHideUnderline(
-            child: DropdownButton(
-              elevation: 0,
-              isExpanded: true,
-              // Initial Value
-              value: dropdownvalue,
+            child: GetBuilder<EmployeeController>(builder: (context) {
+              return DropdownButton(
+                elevation: 0,
+                isExpanded: true,
+                // Initial Value
+                value: dropdownvalue,
 
-              // Down Arrow Icon
-              icon: const Icon(Icons.keyboard_arrow_down),
+                icon: const Icon(Icons.keyboard_arrow_down),
 
-              // Array list of items
-              items: employeeController.employeeNames.map((String item) {
-                return DropdownMenuItem(
-                  child: Text(item),
-                  value: item,
-                );
-              }).toList(),
-              // After selecting the desired option,it will
-              // change button value to selected value
-              onChanged: (String? newValue) {
-                setState(() {
-                  dropdownvalue = newValue!;
-                });
-                employeeController.filterEmployeesByLocation(newValue!);
-              },
-            ),
+                items: employeeController.employeeNames.map((String item) {
+                  return DropdownMenuItem(
+                    value: item,
+                    child: Text(item),
+                  );
+                }).toList(),
+                // After selecting the desired option,it will
+                // change button value to selected value
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropdownvalue = newValue!;
+                  });
+                  employeeController.filterEmployeeName(newValue!);
+                  // employeeController.filterEmployeesByLocation(newValue!);
+                },
+              );
+            }),
           ),
         ],
       ),

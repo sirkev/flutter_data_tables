@@ -188,7 +188,7 @@ class _HomePageState extends State<HomePage> {
                           margin: const EdgeInsets.symmetric(
                             vertical: 15,
                           ),
-                          height: 160,
+                          height: 120,
                           width: Dimensions.screenWidth,
                           color: Colors.transparent,
                           child: const FilterWidgets()),
